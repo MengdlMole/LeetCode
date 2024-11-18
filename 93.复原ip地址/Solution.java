@@ -22,26 +22,25 @@ class Solution {
     }
 
     private void backtrack(String s){
-        if(path == 4){
-            if(cur == s.length()){
-                StringBuilder temp = new StringBuilder();
-                for(int i = 0; i < 3; i++){
-                    temp.append(track.get(i));
-                    temp.append(".");
+            if(path == 4){
+                if(cur == s.length()){
+                    StringBuilder temp = new StringBuilder();
+                    for(int i = 0; i < 3; i++){
+                        temp.append(track.get(i));
+                        temp.append(".");
+                    }
+                    temp.append(track.get(3));
+                    res.add(temp.toString());
                 }
-                temp.append(track.get(3));
-                res.add(temp.toString());
+                else if(cur < s.length()){
+                    return ;
+                }
             }
-            else if(cur < s.length()){
-                return ;
-            }
-        }
-        
-        for(int nextLength : nextLengths){
-            if(cur + nextLength <= s.length()){
-                String temp = s.substring(cur, cur + nextLength);
-                if(Integer.parseInt(temp)<256){
-                    if(temp.charAt(0) != '0' || temp.equals("0")){
+            
+            for(int nextLength : nextLengths){
+                if(cur + nextLength <= s.length()){
+                    String temp = s.substring(cur, cur + nextLength);
+                    if(temp.equals("0") || Integer.parseInt(temp)<256){
                         path += 1;
                         track.add(temp);
                         cur += nextLength;
@@ -49,10 +48,12 @@ class Solution {
                         cur -= nextLength;
                         track.remove(path-1);
                         path -= 1;
-                    } 
+                    }
+                }
+                else{
+                    continue;
                 }
             }
-        }
     }
 
     public static void main(String[] args){
